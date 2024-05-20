@@ -33,7 +33,7 @@ const ProductList = () => {
         }
         //
      try {
-            fetch('https://online-glorycasino.site/:8000/web-data', {
+            fetch('http://95.163.222.107:8000/web-data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
