@@ -32,19 +32,17 @@ const ProductList = () => {
             queryId,
         }
         //
-        try{
-        fetch('http://95.163.222.107:8000/web-data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
+     try {
+            fetch('https://online-glorycasino.site/:8000/web-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+        }
+        catch (e){tg.sendData(JSON.stringify(data));}
     }, [addedItems])
-}
- catch (e) {
-             tg.sendData(JSON.stringify(data));
-    }
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData)
         return () => {
