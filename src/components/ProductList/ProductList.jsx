@@ -22,10 +22,12 @@ const getTotalPrice = (items = []) => {
 }
  
 const ProductList = () => {
-    const [addedItems, setAddedItems] = useState([]);
+  const [error, setError] = useState(null);   
+ const [addedItems, setAddedItems] = useState([]);
     const {tg, queryId} = useTelegram();
 
 const onSendData = useCallback(() => {
+  window.alert('Кнопка была нажата!');
     const data = {
         products: addedItems,
         totalPrice: getTotalPrice(addedItems),
@@ -81,17 +83,18 @@ const onSendData = useCallback(() => {
         }
     }
 
-    return (
-        <div className={'list'}>
-            {products.map(item => (
-                <ProductItem
-                    product={item}
-                    onAdd={onAdd}
-                    className={'item'}
-                />
-            ))}
-        </div>
-    );
+return (
+    <div className={'list'}>
+        {error && <div>{error}</div>} {/* <-- Добавьте это */}
+        {products.map(item => (
+            <ProductItem
+                product={item}
+                onAdd={onAdd}
+                className={'item'}
+            />
+        ))}
+    </div>
+);
 };
 
 export default ProductList;
