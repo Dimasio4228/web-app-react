@@ -27,7 +27,7 @@ const ProductList = () => {
     const {tg, queryId} = useTelegram();
 
 const onSendData = useCallback(() => {
-  event.preventDefault();
+  
   window.alert('Кнопка была нажата!');
     const data = {
         products: addedItems,
