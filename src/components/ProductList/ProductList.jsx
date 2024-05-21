@@ -50,7 +50,7 @@ const onSendData = useCallback(() => {
     })
     .catch(error => {
         // Здесь вы можете обработать ошибку или просто установить состояние ошибки,
-    window.alert(error.message);
+    window.alert(error.name + ": " + error.message);
         setError(error.message);
     });
 }, [addedItems, queryId, setError]);
