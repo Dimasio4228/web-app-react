@@ -25,20 +25,33 @@ const ProductList = () => {
     const [addedItems, setAddedItems] = useState([]);
     const {tg, queryId} = useTelegram();
 
-    const onSendData = useCallback(() => {
-        const data = {
-            products: addedItems,
-            totalPrice: getTotalPrice(addedItems),
-            queryId,
+const onSendData = useCallback(() => {
+    const data = {
+        products: addedItems,
+        totalPrice: getTotalPrice(addedItems),
+        queryId,
+    }
+    fetch('http://85.119.146.179:8000/web-data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(text => {
+                throw new Error(text);
+            });
         }
-        fetch('http://95.163.222.107:8000/web-data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-    }, [addedItems])
+        return response.json();
+    })
+    .catch(error => {
+        // Здесь вы можете обработать ошибку или просто установить состояние ошибки,
+        // чтобы вывести его на страницу
+        setError(error.message);
+    });
+}, [addedItems, queryId, setError]);
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData)
         return () => {
