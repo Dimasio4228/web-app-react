@@ -3,7 +3,7 @@ import './ProductList.css';
 import ProductItem from "../ProductItem/ProductItem";
 import {useTelegram} from "../../hooks/useTelegram";
 import {useCallback, useEffect} from "react";
- 
+import axios from 'axios'; 
 const products = [
     {id: '1', title: 'Джинсы', price: 5000, description: 'Синего цвета, прямые'},
     {id: '2', title: 'Куртка', price: 12000, description: 'Зеленого цвета, теплая'},
@@ -27,34 +27,22 @@ const ProductList = () => {
     const {tg, queryId} = useTelegram();
 
 const onSendData = useCallback(() => {
-  
-  window.alert('Кнопка была нажата!');
-    const data = {
-        products: addedItems,
-        totalPrice: getTotalPrice(addedItems),
-        queryId,
-    }
-    fetch('http://95.163.222.107:8000/web-data', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(text => {
-                throw new Error(text);
-            });
+        window.alert('Кнопка была нажата!');
+        const data = {
+            products: addedItems,
+            totalPrice: getTotalPrice(addedItems),
+            queryId: queryId,
         }
-        return response.json();
-    })
-    .catch(error => {
-        // Здесь вы можете обработать ошибку или просто установить состояние ошибки,
-    window.alert(error.name + ": " + error.message);
-        setError(error.message);
-    });
-}, [addedItems, queryId, setError]);
+
+        axios.post('http://95.163.222.107:8000/web-data', data)
+        .then(response => {
+            // Обработка успешного ответа
+        })
+        .catch(error => {
+            window.alert(error.name + ": " + error.message);
+            setError(error.message);
+        })
+    }, [addedItems, queryId, setError]);
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData)
         return () => {
